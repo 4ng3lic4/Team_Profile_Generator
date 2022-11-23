@@ -1,12 +1,12 @@
-const generateHTML = require("./generateHtml");
+const generateHTML = require("./src/generateHtml");
 const inquirer = require("inquirer");
 const fs = require("fs");
-let teamArray = []; //Team members will be pushed into this array
+ //Team members will be pushed into this array
 //finish test for each class
 //after that, get inquire working by creating the questions list or array and
 //have all of them there
 //start working on what to do with the answers
-//if they cerate engineer , add it and it shoul the init function running again
+//if they cerate engineer , add it and it shoul the init function running again asking the next question
 //They the user clicks done. then startworking on the generate HTML function
 //it is going to be given this team array 
 
