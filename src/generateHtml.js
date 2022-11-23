@@ -7,7 +7,7 @@ const generateTeam = (team) => {
     <div class ="card employee-card"> 
         <div class = "card-header"> 
         <h2 class = "card-title"> ${engineer.getName()}</h2>
-       <h3 class = "card-title"> <i class = "fas fa-glasses mr-2"></i>${engineer.getRole()} </h3>
+       <h3 class = "card-title"> <i class="fa-duotone fa-glasses"></i>${engineer.getRole()} </h3>
         </div>
         <div class = "card-body"> 
         <ul>
@@ -27,7 +27,7 @@ const generateTeam = (team) => {
         <div class ="card employee-card"> 
         <div class = "card-header"> 
         <h2 class = "card-title"> ${manager.getName()}</h2>
-       <h3 class = "card-title"> <i class = "fas fa-mug-hot mr-2"></i>${manager.getRole()} </h3>
+       <h3 class = "card-title"> <i class="fa-duotone fa-mug-hot"></i>${manager.getRole()} </h3>
         </div>
         <div class = "card-body"> 
         <ul>
@@ -39,7 +39,7 @@ const generateTeam = (team) => {
         </div>        
         `;
     };
-}
+
 
 //Generate the interns html cards
 const generateIntern = (intern) => {
@@ -47,8 +47,9 @@ const generateIntern = (intern) => {
     <div class ="card employee-card"> 
         <div class = "card-header"> 
         <h2 class = "card-title"> ${intern.getName()}</h2>
-       <h3 class = "card-title"> <i class = "fas fa-user-graduate mr-2"></i>${intern.getRole()} </h3>
-        </div>
+       <h3 class = "card-title">  <i class="fa-duotone fa-user-graduate"></i>${intern.getRole()} </h3>
+      
+       </div>
         <div class = "card-body"> 
         <ul>
         <li class="list-group-item">ID:${intern.getId()} </li>
@@ -60,5 +61,65 @@ const generateIntern = (intern) => {
     `;
 };
 
-
+//This array will havethe values of the team members
 let teamArray = [];
+
+teamArray.push(
+    team.filter((employee)=> employee.getRole() === "Engineer")
+    .map((engineer) => generateEngineer(engineer))
+    .join("")
+);
+
+teamArray.push(
+    team.filter((employee)=> employee.getRole() === "Manager")
+    .map((manager) => generateManager(manager))
+);
+
+
+
+teamArray.push(
+    team.filter((employee)=> employee.getRole() === "Intern")
+    .map((intern) => generateIntern(intern))
+    .join("")
+);
+
+return teamArray.join/("");
+};
+
+//Export team function to generate general HTML 
+module.exports = (team) => {
+    return `
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Team Profile Generator">
+    <meta name="author" content="Angelica Ibarra Ochoa">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Profile Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel ="stylesheet" href="style.css">
+    <script src ="https://kit.fontawesome.com/c502137733.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 jumbotron mb-3 team-heading">
+                <h2 class="text-center">MY TEAM</h2>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="team-area col-12 d-flex justify-content-center">
+                ${generateTeam(team)}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+    
+    `;
+}
