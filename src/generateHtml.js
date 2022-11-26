@@ -1,3 +1,8 @@
+// return back ticks and do the HTML on the template lieral and have it return one card with the team member info the way ots supposed to be
+//Take the array and give it to the HTML 
+//Finally, take the HTML thats been generated and give it to the writeFile()
+
+
 //generate the team
 const generateTeam = (team) => {
 
@@ -11,9 +16,9 @@ const generateTeam = (team) => {
         </div>
         <div class = "card-body"> 
         <ul>
-        <li class="list-group-item">ID:${engineer.getId()} </li>
-        <li class="list-group-item">Email: <a href="mailto${engineer.getEmail()}" >${engineer.getEmail()}</a></li>
-        <li class="list-group-item">GitHub:<a href ="https://github.com/${engineer.getGitHubUser()}"target="blank" rel= "noopener noreferrer"> ${engineer.getGitHubUser()}</a></li>
+        <li class="table">ID:${engineer.getId()} </li>
+        <li class="table">Email: <a href="mailto${engineer.getEmail()}" >${engineer.getEmail()}</a></li>
+        <li class="table">GitHub:<a href ="https://github.com/${engineer.getGitHubUser()}"target="blank" rel= "noopener noreferrer"> ${engineer.getGitHubUser()}</a></li>
         </ul>
         </div>
         </div>      
@@ -31,9 +36,9 @@ const generateTeam = (team) => {
         </div>
         <div class = "card-body"> 
         <ul>
-        <li class="list-group-item">ID:${manager.getId()} </li>
-        <li class="list-group-item">Email: <a href="mailto${manager.getEmail()}" >${manager.getEmail()}</a></li>
-        <li class="list-group-item">Office number:${manager.getOfficeNumber()} </li>
+        <li class="table">ID:${manager.getId()} </li>
+        <li class="table">Email: <a href="mailto${manager.getEmail()}" >${manager.getEmail()}</a></li>
+        <li class="table">Office number:${manager.getOfficeNumber()} </li>
         </ul>
         </div>
         </div>        
@@ -52,16 +57,16 @@ const generateIntern = (intern) => {
        </div>
         <div class = "card-body"> 
         <ul>
-        <li class="list-group-item">ID:${intern.getId()} </li>
-        <li class="list-group-item">Email: <a href="mailto${intern.getEmail()}" >${intern.getEmail()}</a></li>
-        <li class="list-group-item">Office number:${intern.getSchool()} </li>
+        <li class="table">ID:${intern.getId()} </li>
+        <li class="table">Email: <a href="mailto${intern.getEmail()}" >${intern.getEmail()}</a></li>
+        <li class="table">Office number:${intern.getSchool()} </li>
         </ul>
         </div>
         </div>     
     `;
 };
 
-//This array will havethe values of the team members
+//This array will get the values of the team members into the HTML
 let teamArray = [];
 
 teamArray.push(
@@ -86,7 +91,7 @@ teamArray.push(
 return teamArray.join/("");
 };
 
-//Export team function to generate general HTML 
+//Export team function to generate  HTML 
 module.exports = (team) => {
     return `
     <!DOCTYPE html>
@@ -106,14 +111,14 @@ module.exports = (team) => {
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12 jumbotron mb-3 team-heading">
+            <div class="col-12 jumbotron mb-3 top-bar">
                 <h2 class="text-center">MY TEAM</h2>
             </div>
         </div>
     </div>
     <div class="container">
         <div class="row">
-            <div class="team-area col-12 d-flex justify-content-center">
+            <div class="t-area col-12 d-flex justify-content-center">
                 ${generateTeam(team)}
             </div>
         </div>
