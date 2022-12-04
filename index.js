@@ -1,151 +1,132 @@
-//Import node modules
-const generateTeam = require("./src/generateHtml");
+// node modules
 const inquirer = require("inquirer");
 const fs = require("fs");
+const generateTeam = require("./src/generateHtml");
 
-//Import lib modules 
-const Manager = require("./lib/Manager");
-const Intern = require("./lib/Intern");
+// lib modules
 const Engineer = require("./lib/Engineer");
+const Intern = require("./lib/Intern");
+const Manager = require("./lib/Manager");
 
-
-//Array where Team members will be pushed into this array
-//after that, get inquire working by creating the questions list or array and
-//have all of them there
-
+// Array for answers to questions
 const teamDataQuestions = [];
 
-
-//Questions
-
+// Array object questions asked in CLI to user
 const questions = async () => {
-    const answers = await inquirer
-        .prompt([
-            {
-                type: "input",
-                name: "name",
-                message: "Please enter your name",
-
-            },
-
-
-            //Copy and paste the other questions here  including the {}
-            {
-                type: "input",
-                name: "id",
-                message: "Please enter your ID number",
-
-            },
-            {
-                type: "input",
-                name: "email",
-                message: "Please enter your email address",
-
-            },
-
-            {
-                type: "list",
-                name: "role",
-                message: "Please enter your role from the list of choices",
-                choices: ["Manager", "Engineer", "Intern"],
-
-            },
-
-        ])
+  const answers = await inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "Please enter your name",
+        name: "name",
+      },
+      {
+        type: "input",
+        message: "Please enter your ID number?",
+        name: "id",
+      },
+      {
+        type: "input",
+        message: "Please enter your email address",
+        name: "email",
+      },
+      {
+        type: "list",
+        message: "Please enter your role from the list of choices",
+        name: "role",
+        choices: ["Manager", "Intern", "Engineer"],
+      },
+    ])
 
 
-    //console.log(answers);
     
-    //Generate questions depending on user's choices
-    if (answers.role === "Manager") {
+    //  console.log(answers);
+      // if manager selected, answer these specific question
+
+      if (answers.role === "Manager") {
         const managerAnsr = await inquirer
-            .prompt([
-                {
-                    type: "input",
-                    name: "office number",
-                    message: "Please enter your office number",
-                },
-            ])
-        //Create a new instance of Manager
-        const newManager = new Manager(
+          .prompt([
+            {
+              type: "input",
+              message: "What is your office number",
+              name: "officeNumber",
+            },
+          ])
+          const newManager = new Manager(
             answers.name,
             answers.id,
             answers.email,
             managerAnsr.officeNumber
-        );
-
-        //It gets pushed into the array
-        teamDataQuestions.push(newManager);
-
-        //Questions if user chooses engineer
-    } else if (answers.role === "Engineer") {
-        const gitHubAnsr = await inquirer
-            .prompt([
-                {
-                    type: "input",
-                    name: "github",
-                    message: "Please enter your GitHub user name",
-                },
-            ])
-        //Create an instance of Engineer
-        const newEngineer = new Engineer(
-            answers.name,
-            answers.id,
-            answers.email,
-            gitHubAnsr.github
-        );
-        //It gets pushed into the array
-        teamDataQuestions.push(newEngineer);
-        ///
-        //Questions if user chooses Intern
-    } else if (answers.role === " Intern") {
+          );
+           teamDataQuestions.push(newManager);
+          
+        // if engineer selected answer these set of questions
+      } else if (answers.role === "Engineer") {
+        const githubAnsr = await inquirer
+          .prompt([
+            {
+              type: "input",
+              message: "Please enter your GitHub user name",
+              name: "github",
+            }
+          ])
+            const newEngineer = new Engineer(
+              answers.name,
+              answers.id,
+              answers.email,
+              githubAnsr.github
+            );
+             teamDataQuestions.push(newEngineer);
+          
+        // if intern selected answer these set of questions
+      } else if (answers.role === "Intern") {
         const internAnsr = await inquirer
-            .prompt([
-                {
-                    type: "input",
-                    name: "school",
-                    message: "Please enter your school",
-                },
-            ])
-        //Create an instance of  Intern
-        const newIntern = new Intern(
+          .prompt([
+            {
+              type: "input",
+              message: "Please enter your school",
+              name: "school",
+            },
+          ])
+          
+          const newIntern = new Intern(
             answers.name,
             answers.id,
             answers.email,
             internAnsr.school
-        );
-        //It gets pushed into the array
-        teamDataQuestions.push(newIntern);
+          );
+          teamDataQuestions.push(newIntern);          
+      } 
 
-    }
-};
-////should have the init function running again asking the next question
+}; //end of questions function
 
-async function init(){
-    await questions()
-
-    const createNewMember = await inquirer
+async function init() {
+  await questions()
+    
+  
+  const addMemberAnsr = await inquirer
     .prompt([
-        {
-type:'list',
-name:'addTeamMember',
-message:"Please select the option you would like to continue next",
-choices:['Finish building my team', 'Create a new member']
-        }
+      {
+        name:'addMember',
+        type: 'list',
+        choices: ['Add a new member', 'Finish Creating team'],
+        message: "What would you like to do next?"
+      }
     ])
-    if(createNewMember.addTeamMember === 'Add new a Member'){
-        return init()
-}
 
-return buildTeam();
-}
+    if (addMemberAnsr.addMember === 'Add a new Team member') {
+      return init()
+    }
+    return buildTeam();
+}  
 
 init();
-//When user is done. Then start working on the generate HTML function
-function buildTeam(){
-    console.log("new member",teamDataQuestions)
-fs.writeFileSync("./output/index.html",
-generateTeam(teamDataQuestions),
-"utf-8");
+
+function buildTeam() {
+  console.log("new person", teamDataQuestions)
+  fs.writeFileSync( "./output/index.html",
+    generateTeam(teamDataQuestions),
+    "utf-8"
+  );
 }
 
